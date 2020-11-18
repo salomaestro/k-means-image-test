@@ -51,23 +51,7 @@ def main():
 
     processed = np.asarray(processed)
     flat, shape = flatten_3d_to_2d(processed)
-    write_to_csv(flat, shape)
-
-
-    # plt.imshow(processed[0], cmap="gray")
-    # plt.show()
+    # write_to_csv(flat, shape)
 
 if __name__ == "__main__":
     main()
-
-
-
-
-# crop_im = crop_image(im)
-# gray_im = rgb_to_gray(crop_im)
-#
-# plt.imshow(gray_im, cmap="gray")
-# plt.show()
-
-# Shows the image in image viewer
-# im1.show()
