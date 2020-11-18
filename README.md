@@ -12,6 +12,6 @@ Dette er et repo laget som en del av prosjektet mitt som går ut på å sanke eg
 - [PILLOW](https://pillow.readthedocs.io/en/stable/installation.html)
 - [os](https://pypi.org/project/os-sys/)
 
-### Bilde fra treningsdata
+### Generiskt bilde
 
 ![Maskinlæring](https://miro.medium.com/max/700/1*c_fiB-YgbnMl6nntYGBMHQ.jpeg)
