@@ -10,7 +10,7 @@ Dette er et repo laget som en del av prosjektet mitt som går ut på å sanke eg
 - [Numpy](https://numpy.org/install/)
 - [Matplotlib](https://pypi.org/project/matplotlib/)
 - [PILLOW](https://pillow.readthedocs.io/en/stable/installation.html)
-- [os](https://pypi.org/project/os-sys/)
+- [os-sys](https://pypi.org/project/os-sys/)
 
 ### Generiskt bilde
 
