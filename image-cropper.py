@@ -44,17 +44,18 @@ def main():
     images = open_all_images("Clustering_test_photos")
     processed = []
     for image in images:
-        pixelated = pixellate(image)
-        cropped = crop_image(pixelated)
+        # dont think pixelated is the right way to go!
+        # pixelated = pixellate(image)
+        cropped = crop_image(image)
         gray = rgb_to_gray(cropped)
         processed.append(gray)
 
     processed = np.asarray(processed)
     flat, shape = flatten_3d_to_2d(processed)
-    # write_to_csv(flat, shape)
+    write_to_csv(flat, shape)
 
-    plt.imshow(processed[0], cmap="gray")
-    plt.show()
+    # plt.imshow(processed[0], cmap="gray")
+    # plt.show()
 
 if __name__ == "__main__":
     main()
