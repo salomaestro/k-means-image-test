@@ -33,7 +33,7 @@ def rgb_to_gray(rgb):
 
 def flatten_3d_to_2d(arr):
     orig_shape = arr.shape
-    return arr.reshape(-1, len(arr)), orig_shape
+    return arr.reshape(len(arr), -1), orig_shape
 
 def write_to_csv(images, reshape_to):
     header = "Numerical representation of images, to retrive original image, reshape to: {}\n".format(reshape_to)
@@ -52,8 +52,10 @@ def main():
 
     processed = np.asarray(processed)
     flat, shape = flatten_3d_to_2d(processed)
-    # write_to_csv(flat, shape)
-    print(flat.shape)
+
+    # plt.imshow(flat[0].reshape(32,27))
+    # plt.show()
+    write_to_csv(flat, shape)
 
     # plt.imshow(processed[0], cmap="gray")
     # plt.show()

@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from dataloader import load_data
 
 def get_data():
-    data = load_data("frey-faces.csv")
+    datainput = str(input())
+    data = load_data(datainput)
     return data
 
 def K_means(data, n=2):
@@ -77,7 +78,7 @@ def K_means(data, n=2):
 def rescale(vecs, original_data, edgecase, closest):
     # Settings for plotting.
     figsize = (10, 6)
-    newshape = (28, 20)
+    newshape = (27, 32)
     cmap = "gray"
     n = len(vecs) // 2
 
