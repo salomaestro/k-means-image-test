@@ -1,12 +1,17 @@
 import os
 
-def main():
-    for i, filename in enumerate(os.listdir(r"C:\Users\Christian Salomonsen\github\k-means-test\Clustering_test_photos")):
+def rename():
+    cwd = os.getcwd()
+    path = str(input("Enter folder name: "))
+    for i, filename in enumerate(os.listdir(path)):
         dst = "Image" + str(i) + ".jpg"
-        src = r"C:\Users\Christian Salomonsen\github\k-means-test\Clustering_test_photos" + "\{}".format(filename)
-        dst = r"C:\Users\Christian Salomonsen\github\k-means-test\Clustering_test_photos" + "\{}".format(dst)
+        src = os.path.join(path, filename)
+        dst = os.path.join(path, dst)
 
         os.rename(src, dst)
+
+def main():
+    rename()
 
 if __name__ == "__main__":
     main()
