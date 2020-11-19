@@ -78,7 +78,7 @@ def K_means(data, n=2):
 def rescale(vecs, original_data, edgecase, closest):
     # Settings for plotting.
     figsize = (10, 6)
-    newshape = (32, 27)
+    newshape = (50, 42)
     cmap = "gray"
     n = len(vecs) // 2
 
