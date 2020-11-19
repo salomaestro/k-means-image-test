@@ -52,7 +52,8 @@ def main():
 
     processed = np.asarray(processed)
     flat, shape = flatten_3d_to_2d(processed)
-    write_to_csv(flat, shape)
+    # write_to_csv(flat, shape)
+    print(flat.shape)
 
     # plt.imshow(processed[0], cmap="gray")
     # plt.show()
