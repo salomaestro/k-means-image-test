@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from dataloader import load_data
 
 def get_data():
-    datainput = str(input())
+    datainput = str(input("Enter name of the file: "))
     data = load_data(datainput)
     return data
 
