@@ -3,62 +3,80 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 
-def open_all_images(foldername):
-    images = []
-    for image in os.listdir(foldername):
-        images.append(Image.open(os.path.join(os.getcwd(), foldername, image)))
-    return images
+class Post_prod(object):
+    """
+    Does some resize, cropping, and greytones on many images.
+    """
+    def __init__(self, foldername):
+        self.folder = foldername
 
-def crop_image(image):
-    # Size of the image in pixels (size of orginal image)
-    width, height = image.size
+        images = []
+        for image in os.listdir(self.folder):
+            images.append(Image.open(os.path.join(os.getcwd(), self.folder, image)))
 
-    # Setting the points for cropped image
-    left = width / 3
-    top = height / 5
-    right = 3 * width / 4
-    bottom = 7 * height / 8
+        self.images = images
+        self.orig_size = self.images[0].size
 
-    # Cropped image of above dimension
-    im1 = image.crop((left, top, right, bottom))
-    return np.array(im1)
+    def crop(self):
+        images = []
+        for image in self.images:
+            # size of image
+            width, height = image.size
 
-def pixellate(image):
-    small = image.resize((64, 64), resample=Image.BILINEAR)
-    return small.resize(image.size,Image.NEAREST)
+            # setting the points for cropped image
+            left = width / 3
+            top = height / 5
+            right = 3 * width / 4
+            bottom = 7 * height / 8
 
-def rgb_to_gray(rgb):
-    r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
-    return np.dot(rgb, [0.2989, 0.5870, 0.1140])
+            images.append(image.crop((left, top, right, bottom)))
 
-def flatten_3d_to_2d(arr):
-    orig_shape = arr.shape
-    return arr.reshape(len(arr), -1), orig_shape
+        # Update images
+        self.images = images
 
-def write_to_csv(images, reshape_to):
-    header = "Numerical representation of images, to retrive original image, reshape to: {}\n".format(reshape_to)
-    with open("Images_to_use.csv", "w+") as f:
-        np.savetxt(f, images, delimiter=" ", header=header)
+    def pixellate(self, newpix=64, resample=Image.BOX):
+        images = []
+        for image in self.images:
+            size = image.size
+            scale = size[1] / size[0]
+
+            small = image.resize((64, int(64 * scale)), resample)
+            images.append(small.resize((size), resample))
+
+        # update images
+        self.images = images
+
+    def grayscale(self, g1=0.2989, g2=0.5870, g3=0.1140):
+        images = []
+        for image in self.images:
+            image = np.array(image)
+            images.append(np.dot(image, [g1, g2, g3]))
+
+        self.images = np.asarray(images)
+
+    def make_2d(self):
+        self.images = self.images.reshape(len(self.images), -1)
+
+    def write_to_csv(self, filename, delimiter=" ", header="Processed images"):
+        with open(str(filename), "w+") as f:
+            np.savetxt(f, self.images, delimiter=delimiter, header=str(header + "reshape to: {}\n".format(self.orig_size)))
 
 def main():
-    images = open_all_images("Clustering_test_photos")
-    processed = []
-    for image in images:
-        # dont think pixelated is the right way to go!
-        # pixelated = pixellate(image)
-        cropped = crop_image(image)
-        gray = rgb_to_gray(cropped)
-        processed.append(gray)
+    folder = str(input("Folder which contain images: "))
+    res = Post_prod(folder)
+    res.crop()
+    res.pixellate()
+    res.grayscale()
 
-    processed = np.asarray(processed)
-    flat, shape = flatten_3d_to_2d(processed)
+    fig, axs = plt.subplots()
+    axs.imshow(res.images[0])
+    plt.show()
 
-    # plt.imshow(flat[0].reshape(32,27))
-    # plt.show()
-    write_to_csv(flat, shape)
+    res.make_2d()
 
-    # plt.imshow(processed[0], cmap="gray")
-    # plt.show()
+    storage = str(input("Name of file to store data (.csv): "))
+    res.write_to_csv(storage)
+
 
 if __name__ == "__main__":
     main()
