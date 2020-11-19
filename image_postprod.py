@@ -34,7 +34,6 @@ class Post_prod(object):
 
         # Update images
         self.images = images
-        self.new_shape = np.array(self.images[0]).shape
 
     def pixellate(self, newpix=42, resample=Image.BOX):
         images = []
@@ -57,11 +56,12 @@ class Post_prod(object):
         self.images = np.asarray(images)
 
     def make_2d(self):
+        self.new_shape = np.array(self.images[0]).shape
         self.images = self.images.reshape(len(self.images), -1)
 
     def write_to_csv(self, filename, delimiter=" ", header="Processed images"):
         with open(str(filename), "w+") as f:
-            np.savetxt(f, self.images, delimiter=delimiter, header=str(header + "reshape to: {}\n".format(self.orig_size)))
+            np.savetxt(f, self.images, delimiter=delimiter, header=str(header + "reshape to: {}\n".format(self.new_shape)))
 
 def random_plot():
     randomimg = np.random.choice(len(res.images), 20)
@@ -83,8 +83,8 @@ def main():
     res.grayscale()
     res.make_2d()
 
-    # storage = str(input("Name of file to store data (.csv): "))
-    # res.write_to_csv(storage)
+    storage = str(input("Name of file to store data (.csv): "))
+    res.write_to_csv(storage)
 
 
 if __name__ == "__main__":
