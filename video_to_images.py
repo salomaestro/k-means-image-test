@@ -4,8 +4,11 @@ import os
 
 # path
 def main():
+    video_name = str(input("Enter name of .mp4: "))
+    storage = str(input("Enter filename of new folder: "))
+
     cwd = os.getcwd()
-    path = os.path.join(cwd, "video_ML.mp4")
+    path = os.path.join(cwd, video_name)
 
     # Read the video from specified path
     cam = cv2.VideoCapture(path)
@@ -13,8 +16,8 @@ def main():
     try:
 
         # creating a folder named data
-        if not os.path.exists('dataimages'):
-            os.makedirs('dataimages')
+        if not os.path.exists(storage):
+            os.makedirs(storage)
 
     # if not created then raise error
     except OSError:
@@ -30,7 +33,7 @@ def main():
 
         if ret:
             # if video is still left continue creating images
-            name = './dataimages/frame' + str(currentframe) + '.jpg'
+            name = './' + storage + '/frame' + str(currentframe) + '.jpg'
             print ('Creating...' + name)
 
             # writing the extracted images
