@@ -79,12 +79,12 @@ def main():
 
     res = Post_prod(folder)
     res.crop()
-    res.pixellate()
+    res.pixellate(newpix=42)
     res.grayscale()
     res.make_2d()
 
-    storage = str(input("Name of file to store data (.csv): "))
-    res.write_to_csv(storage)
+    # storage = str(input("Name of file to store data (.csv): "))
+    # res.write_to_csv(storage)
 
 
 if __name__ == "__main__":
