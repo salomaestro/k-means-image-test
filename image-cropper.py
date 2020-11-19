@@ -53,5 +53,8 @@ def main():
     flat, shape = flatten_3d_to_2d(processed)
     # write_to_csv(flat, shape)
 
+    plt.imshow(processed[0], cmap="gray")
+    plt.show()
+
 if __name__ == "__main__":
     main()
