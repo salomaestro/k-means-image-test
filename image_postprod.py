@@ -16,6 +16,7 @@ class Post_prod(object):
 
         self.images = images
         self.orig_size = self.images[0].size
+        self.new_shape = None
 
     def crop(self):
         images = []
@@ -33,15 +34,16 @@ class Post_prod(object):
 
         # Update images
         self.images = images
+        self.new_shape = np.array(self.images[0]).shape
 
-    def pixellate(self, newpix=64, resample=Image.BOX):
+    def pixellate(self, newpix=42, resample=Image.BOX):
         images = []
         for image in self.images:
             size = image.size
             scale = size[1] / size[0]
 
-            small = image.resize((64, int(64 * scale)), resample)
-            images.append(small.resize((size), resample))
+            small = image.resize((newpix, int(newpix * scale)), resample)
+            images.append(small)
 
         # update images
         self.images = images
@@ -61,17 +63,24 @@ class Post_prod(object):
         with open(str(filename), "w+") as f:
             np.savetxt(f, self.images, delimiter=delimiter, header=str(header + "reshape to: {}\n".format(self.orig_size)))
 
+def random_plot():
+    randomimg = np.random.choice(len(res.images), 20)
+    randomimg = res.images[randomimg]
+
+    for i, image in enumerate(randomimg):
+        if i > 20:
+            break
+        fig, axs = plt.subplots()
+        axs.imshow(image)
+        plt.savefig("dataimages_post\image" + str(i) + ".png")
+
 def main():
     folder = str(input("Folder which contain images: "))
+
     res = Post_prod(folder)
     res.crop()
     res.pixellate()
     res.grayscale()
-
-    fig, axs = plt.subplots()
-    axs.imshow(res.images[0])
-    plt.show()
-
     res.make_2d()
 
     storage = str(input("Name of file to store data (.csv): "))
