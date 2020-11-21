@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from dataloader import load_data
+import time
 
 def get_data():
     datainput = str(input("Enter name of the file: "))
@@ -75,10 +76,9 @@ def K_means(data, n=2):
 
     return prototypes, predictions, edgecases, closest_to_each_cluster
 
-def rescale(vecs, original_data, edgecase, closest):
+def rescale(vecs, original_data, edgecase, closest, newshape):
     # Settings for plotting.
     figsize = (10, 6)
-    newshape = (50, 42)
     cmap = "gray"
     n = len(vecs) // 2
 
@@ -149,17 +149,30 @@ def rescale(vecs, original_data, edgecase, closest):
         fig.tight_layout()
         plt.show()
 
+def find_shape():
+    newshape = input("What shape should the images be reshaped to? (use: x, y): ")
+    newshape = newshape.split(", ")
+    temp = []
+    for elem in newshape:
+        temp.append(int(elem))
+    return tuple(temp)
+
 def main():
     # To recreate the results i presented in my paper use the seed 42069, you can remove the "#" before the next line of code to get theese results!
     # np.random.seed(42069)
     frey_faces_data = get_data()
 
+    shape = find_shape()
     # how many clusters we´ll use.
     K = [2, 4, 10]
 
     for k in K:
+        start_time = time.time()
         cluster, prediction, edgecase, closest = K_means(frey_faces_data, k)
-        rescale(cluster, frey_faces_data, edgecase, closest)
+
+        print("For k = {}, used {:.4f} seconds.".format(k, time.time() - start_time))
+
+        rescale(cluster, frey_faces_data, edgecase, closest, shape)
 
 if __name__ == "__main__":
     main()
