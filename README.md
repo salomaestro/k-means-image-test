@@ -9,6 +9,7 @@ This is a repo constructed as a part of my project to gather my own training dat
 - [Matplotlib](https://pypi.org/project/matplotlib/)
 - [PILLOW](https://pillow.readthedocs.io/en/stable/installation.html)
 - [os-sys](https://pypi.org/project/os-sys/)
+- [opencv-python](https://pypi.org/project/opencv-python/)
 
 ## Current results
 
