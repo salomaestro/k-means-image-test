@@ -18,23 +18,6 @@ class Post_prod(object):
         self.orig_size = self.images[0].size
         self.new_shape = None
 
-    def crop(self):
-        images = []
-        for image in self.images:
-            # size of image
-            width, height = image.size
-
-            # setting the points for cropped image
-            left = width / 3
-            top = height / 5
-            right = 3 * width / 4
-            bottom = 7 * height / 8
-
-            images.append(image.crop((left, top, right, bottom)))
-
-        # Update images
-        self.images = images
-
     def pixellate(self, newpix=42, resample=Image.BOX):
         images = []
         for image in self.images:
@@ -46,14 +29,6 @@ class Post_prod(object):
 
         # update images
         self.images = images
-
-    def grayscale(self, g1=0.2989, g2=0.5870, g3=0.1140):
-        images = []
-        for image in self.images:
-            image = np.array(image)
-            images.append(np.dot(image, [g1, g2, g3]))
-
-        self.images = np.asarray(images)
 
     def make_2d(self):
         self.new_shape = np.array(self.images[0]).shape
@@ -79,9 +54,7 @@ def main():
     folder = str(input("Folder which contain images: "))
 
     res = Post_prod(folder)
-    res.crop()
     res.pixellate(newpix=42)
-    res.grayscale()
     new_shape = res.make_2d()
 
     print("Reshape to {}, to see images or use in k-means-algorithm!".format(new_shape))
